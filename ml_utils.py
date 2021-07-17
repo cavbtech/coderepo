@@ -1,5 +1,6 @@
 from os import X_OK
-!pip install -U imbalanced-learn
+pip install -U imbalanced-learn
+conda install -c conda-forge imbalanced-learn
 from sklearn import datasets
 from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import GaussianNB
