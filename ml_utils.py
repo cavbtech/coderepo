@@ -54,18 +54,18 @@ def check_accurary(X,y,X_test, y_test):
 	right_number_neighbours = 1
 	for i in range(1,10):
 		knnmodel = KNeighborsClassifier(n_neighbors=i)
-    	knnmodel.fit(X,y)
-    	#Predicting for test data with logistic regression
-    	y_pred = knnmodel.predict(X_test)
-		###Calculating results for various evaluation metri
-    	precision = precision_score(y_test,y_pred, average='micro')
-    	recall 	  = recall_score(y_test,y_pred, average='micro')
-    	accuracy  = accuracy_score(y_test,y_pred)
-    	f1        = f1_score(y_test,y_pred, average='macro')
-    	if best_accuracy < accuracy :  
-        	best_accuracy           = accuracy
-        	right_number_neighbours = i
-
+		knnmodel.fit(X,y)
+		#Predicting for test data with logistic regression
+		y_pred = knnmodel.predict(X_test)
+		###Calculating results for various evaluation metric
+		precision = precision_score(y_test,y_pred, average='micro')
+		recall 	  = recall_score(y_test,y_pred, average='micro')
+		accuracy  = accuracy_score(y_test,y_pred)
+		f1        = f1_score(y_test,y_pred, average='macro')
+		if best_accuracy < accuracy :
+			best_accuracy           = accuracy
+			right_number_neighbours = i
+			
 	print(f"---------------------if neighbors = {i}---------------------------------------")
 	print(f"Accuracy: {accuracy}")
 	print(f"Recall: {recall}")
