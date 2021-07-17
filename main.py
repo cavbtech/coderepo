@@ -1,7 +1,7 @@
 import uvicorn
 from fastapi import FastAPI
 from pydantic import BaseModel
-from ml_utils import load_model,predict
+from ml_utils import load_dataset,predict
 from datetime import datetime
 
 app = FastAPI(
@@ -9,29 +9,29 @@ app = FastAPI(
     docs_url="/"
 )
 
-app.add_event_handler("startup", load_model)
+app.add_event_handler("startup", load_dataset)
 
 class QueryIn(BaseModel):
-    existing_checking_account :int
+    existing_checking_account :str
     duration_in_month :int
-    credit_history :int
-    purpose :int
+    credit_history :str
+    purpose :str
     credit_amount :int
-    savings_account_bonds :int
-    present_employment_since :int
+    savings_account_bonds :str
+    present_employment_since :str
     percentage_of_disposable_income :int
-    personal_status_and_sex :int
-    other_debtors_guarantors :int
+    personal_status_and_sex :str
+    other_debtors_guarantors :str
     present_residence_since :int
-    property :int
+    property :str
     age_in_years :int
-    other_installment_plans :int
-    housing :int
+    other_installment_plans :str
+    housing :str
     number_of_existing_credits_at_this_bank :int
-    job :int
+    job :str
     number_of_people_being_liable :int
-    telephone :int
-    foreign_worker :int
+    telephone :str
+    foreign_worker :str
 
 class QueryOut(BaseModel):
     is_trusted_customer: str
@@ -47,7 +47,7 @@ def predict_customer( query_data: QueryIn):
     result = predict(query_data)
     ct     = datetime.now()
     ctStr  = ct.strftime("%m/%d/%Y, %H:%M:%S")
-    output = {'trusted': result,'timestamp_str':ctStr}
+    output = {'is_trusted_customer': result,'timestamp_str':ctStr}
     return output
 
 

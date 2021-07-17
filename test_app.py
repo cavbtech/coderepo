@@ -10,34 +10,31 @@ def pytest_configure(config):
     config.pluginmanager.unregister(vanilla_reporter)
     config.pluginmanager.register(my_reporter, "terminalreporter")
 
-def test_ping():
-    with TestClient(app) as client:
-        response = client.get("/ping")
-        assert response.status_code == 200
-        assert response.json() == {"ping":"pong"}
 
-def test_pred_good_customer():
+
+
+def test_pred_good_customer_with_textdata():
     payload = {
-        "existing_checking_account":1,
-        "duration_in_month":6,
-        "credit_history":4,
-        "purpose":12,
-        "credit_amount":5,
-        "savings_account_bonds":5,
-        "present_employment_since":3,
+        "existing_checking_account":"A13",
+        "duration_in_month":18,
+        "credit_history":"A32",
+        "purpose":"A43",
+        "credit_amount":2100,
+        "savings_account_bonds":"A61",
+        "present_employment_since":"A73",
         "percentage_of_disposable_income":4,
-        "personal_status_and_sex":1,
-        "other_debtors_guarantors":67,
-        "present_residence_since":3,
-        "property":2,
-        "age_in_years":1,
-        "other_installment_plans":2,
-        "housing":1,
-        "number_of_existing_credits_at_this_bank":0,
-        "job":0,
+        "personal_status_and_sex":"A93",
+        "other_debtors_guarantors":"A102",
+        "present_residence_since":2,
+        "property":"A121",
+        "age_in_years":37,
+        "other_installment_plans":"A142",
+        "housing":"A152",
+        "number_of_existing_credits_at_this_bank":1,
+        "job":"A173",
         "number_of_people_being_liable":1,
-        "telephone":0,
-        "foreign_worker":0
+        "telephone":"A191",
+        "foreign_worker":"A201"
     }
     with TestClient(app) as client:
         response = client.post('/predict_customer', json=payload)
