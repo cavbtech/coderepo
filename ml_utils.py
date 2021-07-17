@@ -28,7 +28,7 @@ def load_model():
 	cat_ix = x.select_dtypes(include=['object', 'bool']).columns
 	# one hot encode categorical features only
 	ct = ColumnTransformer([('o',OneHotEncoder(),cat_ix)], remainder='passthrough')
-	X = ct.fit_transform(X)
+	X = ct.fit_transform(x)
 	# label encode the target variable to have the classes 0 and 1
 	y = LabelEncoder().fit_transform(y)
 	

@@ -43,7 +43,7 @@ def ping():
 
 
 @app.post("/predict_customer", response_model=QueryOut, status_code=200)
-def predict_flower( query_data: QueryIn):
+def predict_customer( query_data: QueryIn):
     result = predict(query_data)
     ct     = datetime.now()
     ctStr  = ct.strftime("%m/%d/%Y, %H:%M:%S")
@@ -54,4 +54,4 @@ def predict_flower( query_data: QueryIn):
 
 
 if __name__ == "__main__":
-    uvicorn.run("main:app", host='127.0.0.1', port=8888, reload=True)
+    uvicorn.run("main:app", host='127.0.0.1', port=8088, reload=True)

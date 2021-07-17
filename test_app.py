@@ -1,6 +1,14 @@
 from fastapi.testclient import TestClient
 from main import app
+import pytest
+from _pytest.terminal import TerminalReporter
 
+@pytest.mark.trylast
+def pytest_configure(config):
+    vanilla_reporter = config.pluginmanager.getplugin("terminalreporter")
+    my_reporter = MyReporter(config)
+    config.pluginmanager.unregister(vanilla_reporter)
+    config.pluginmanager.register(my_reporter, "terminalreporter")
 
 def test_ping():
     with TestClient(app) as client:
