@@ -15,10 +15,13 @@ from sklearn.preprocessing import OneHotEncoder
 from sklearn.compose import ColumnTransformer
 from sklearn.neighbors import KNeighborsClassifier	
 from sklearn.metrics import fbeta_score, f1_score,precision_score,recall_score,accuracy_score, roc_curve, auc
+from sklearn.svm import SVC
 
 
-#model
-model = LogisticRegression(solver='liblinear', class_weight='balanced')
+# SVM classifier
+model = SVC(kernel='poly', degree=3, max_iter=300000)
+# #model
+# model = LogisticRegression(solver='liblinear', class_weight='balanced')
 
 def load_dataset():
 	df=read_csv("http://archive.ics.uci.edu/ml/machine-learning-databases/statlog/german/german.data",sep=" ",header=None)
