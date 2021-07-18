@@ -36,62 +36,101 @@
     </style>
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
     <script type="text/javascript">
+
+
             function convertJson(inputForm){
                 var existing_checking_account = document.getElementById('existing_checking_account').value
-                var duration_in_month = document.getElementById('duration_in_month').value
-                alert(existing_checking_account + " " + duration_in_month)
-                alert(JSON.stringify(existing_checking_account))
+                var duration_in_month = parseInt(document.getElementById('duration_in_month').value)
+                var credit_history = document.getElementById('credit_history').value
+                var purpose = document.getElementById('purpose').value
+                var credit_amount = parseInt(document.getElementById('credit_amount').value)
+                var savings_account_bonds = document.getElementById('savings_account_bonds').value
+                var present_employment_since = document.getElementById('present_employment_since').value
+                var percentage_of_disposable_income = parseInt(document.getElementById('percentage_of_disposable_income').value)
+                var personal_status_and_sex = document.getElementById('personal_status_and_sex').value
+                var other_debtors_guarantors = document.getElementById('other_debtors_guarantors').value
+                var present_residence_since = document.getElementById('present_residence_since').value
+                var property = document.getElementById('property').value
+                var age_in_years = parseInt(document.getElementById('age_in_years').value)
+                var other_installment_plans = document.getElementById('other_installment_plans').value
+                var housing = document.getElementById('housing').value
+                var number_of_existing_credits_at_this_bank = parseInt(document.getElementById('number_of_existing_credits_at_this_bank').value)
+                var job = document.getElementById('job').value
+                var number_of_people_being_liable = parseInt(document.getElementById('number_of_people_being_liable').value)
+                var telephone = document.getElementById('telephone').value
+                var foreign_worker = document.getElementById('foreign_worker').value
                 var testString={
-                                "existing_checking_account":"A13",
-                                "duration_in_month":18,
-                                "credit_history":"A32",
-                                "purpose":"A43",
-                                "credit_amount":2100,
-                                "savings_account_bonds":"A61",
-                                "present_employment_since":"A73",
-                                "percentage_of_disposable_income":4,
-                                "personal_status_and_sex":"A93",
-                                "other_debtors_guarantors":"A102",
-                                "present_residence_since":2,
-                                "property":"A121",
-                                "age_in_years":37,
-                                "other_installment_plans":"A142",
-                                "housing":"A152",
-                                "number_of_existing_credits_at_this_bank":1,
-                                "job":"A173",
-                                "number_of_people_being_liable":1,
-                                "telephone":"A191",
-                                "foreign_worker":"A201"
+                                "existing_checking_account":existing_checking_account,
+                                "duration_in_month":duration_in_month,
+                                "credit_history":credit_history,
+                                "purpose":purpose,
+                                "credit_amount":credit_amount,
+                                "savings_account_bonds":savings_account_bonds,
+                                "present_employment_since":present_employment_since,
+                                "percentage_of_disposable_income":percentage_of_disposable_income,
+                                "personal_status_and_sex":personal_status_and_sex,
+                                "other_debtors_guarantors":other_debtors_guarantors,
+                                "present_residence_since":present_residence_since,
+                                "property":property,
+                                "age_in_years":age_in_years,
+                                "other_installment_plans":other_installment_plans,
+                                "housing":housing,
+                                "number_of_existing_credits_at_this_bank":number_of_existing_credits_at_this_bank,
+                                "job":job,
+                                "number_of_people_being_liable":number_of_people_being_liable,
+                                "telephone":telephone,
+                                "foreign_worker":foreign_worker
                             };
+                            
+                // var testString2= {
+                //             "existing_checking_account":"A13",
+                //             "duration_in_month":18,
+                //             "credit_history":"A32",
+                //             "purpose":"A43",
+                //             "credit_amount":2100,
+                //             "savings_account_bonds":"A61",
+                //             "present_employment_since":"A73",
+                //             "percentage_of_disposable_income":4,
+                //             "personal_status_and_sex":"A93",
+                //             "other_debtors_guarantors":"A102",
+                //             "present_residence_since":2,
+                //             "property":"A121",
+                //             "age_in_years":37,
+                //             "other_installment_plans":"A142",
+                //             "housing":"A152",
+                //             "number_of_existing_credits_at_this_bank":1,
+                //             "job":"A173",
+                //             "number_of_people_being_liable":1,
+                //             "telephone":"A191",
+                //             "foreign_worker":"A201"
+                //         }
+                alert("testString="+JSON.stringify(testString))
+                console.log("testString="+JSON.stringify(testString))
                 return JSON.stringify(testString)
             }
             function jqsub() {
-                alert('coming');
+                
             var $f = $('#contactForm1');
             var datajson = convertJson($f)
-            var $m = $('#message');
-            alert($f.attr('action'))
+            var resultdiv = document.getElementById("result_message");
             $.ajax({
             type: 'POST',
-            url: $f.attr('action'),
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
+            url: "/predict_customer",
+            
             data: datajson,
+                
                 success: function(msg) {
-                    alert(msg.message)
+                    console.log(msg);
                 var formResponse = eval(msg); // This line evaluates the JSON data and converts it to JSON object. In older version of jQuery you will have to evaluate JSON object as a string.
-                    if (formResponse.FormProcessV2Response.success) { 
-                            
-                            $m.addClass('success').fadeIn().html(formResponse.FormProcessV2Response.message); 
-                            $f.fadeOut(); //Hide the form
-                    }
-                                
+                resultdiv.innerText  =msg['is_trusted_customer']
+                resultdiv.style.display = "block" 
                 },
-                error: function(msg) {
+                error: function() {
                     alert('error'+msg.message)
                 
                 return false;
                 }
+
             });
             }
     </script>
@@ -106,7 +145,7 @@
             <div class="col-xs-3 bg-warning" style="height:1400px;">About Application</div>
             <div class="col-xs-6 bg-info" style="height:1400px;">Input fields
                 <p></p>
-                <form id="contactForm1" action="http://127.0.0.1:8088/predict_customer2">
+                <form id="contactForm1" action="#">
                     <label for="fname">Status of existing checking account</label>
                     <select id="existing_checking_account" name="existing_checking_account">
                         <option value="A14">no checking account</option>
@@ -119,25 +158,34 @@
                     <label for="chistory">Creadit History</label>
                     <select id="credit_history" name="credit_history">
                         <option value="A34">critical account</option>
-                        <option value="A11">&lt;0 DM</option>
-                        <option value="A12">0 &lt;= &lt;200 DM</option>
-                        <option value="A13">&gt;= 200 DM</option>
+                        <option value="A33">delay in paying off</option>
+                        <option value="A32">existing credits paid back duly till now</option>
+                        <option value="A31">all credits at this bank paid back duly</option>
+                        <option value="A30">no credits taken</option>
                     </select>
                     <label for="p">Purpose</label>
                     <select id="purpose" name="purpose">
-                        <option value="A14">no checking account</option>
-                        <option value="A11">&lt;0 DM</option>
-                        <option value="A12">0 &lt;= &lt;200 DM</option>
-                        <option value="A13">&gt;= 200 DM</option>
+                        <option value="A40"> car (new)</option>
+                        <option value="A41"> car (used)</option>
+                        <option value="A42"> furniture/equipment</option>
+                        <option value="A43">radio/television </option>
+                        <option value="A44"> domestic appliances</option>
+                        <option value="A45"> repairs</option>
+                        <option value="A46"> education</option>
+                        <option value="A47"> vacation</option>
+                        <option value="A48"> retraining</option>
+                        <option value="A49"> business</option>
+                        <option value="A410"> others</option>
                     </select>
                     <label for="camount">Credit Amount</label>
                     <input type="text" id="credit_amount" name="credit_amount">
                     <label for="sbonds">Saving account bonds</label>
                     <select id="savings_account_bonds" name="savings_account_bonds">
-                        <option value="A14">no checking account</option>
-                        <option value="A11">&lt;0 DM</option>
-                        <option value="A12">0 &lt;= &lt;200 DM</option>
-                        <option value="A13">&gt;= 200 DM</option>
+                        <option value="A65"> no savings account</option>
+                        <option value="A61">&lt;100 DM</option>
+                        <option value="A62"> 100 &lt;= &lt;500 DM</option>
+                        <option value="A63">500 &lt;= &lt; 1000 DM</option>
+                        <option value="A64">&gt;= 1000 DM</option>
                     </select>
                     <label for="p">Present emplyee since</label>
                     <select id="present_employment_since" name="present_employment_since">
@@ -150,17 +198,17 @@
                     <input type="text" id="percentage_of_disposable_income" name="percentage_of_disposable_income">
                     <label for="sbonds">Personal of Status amd sex</label>
                     <select id="personal_status_and_sex" name="personal_status_and_sex">
-                        <option value="A14">no checking account</option>
-                        <option value="A11">&lt;0 DM</option>
-                        <option value="A12">0 &lt;= &lt;200 DM</option>
-                        <option value="A13">&gt;= 200 DM</option>
+                        <option value="A95">female:singe</option>
+                        <option value="A94">male:married/widowed</option>
+                        <option value="A93">male:single</option>
+                        <option value="A92">female:divorced/separated/married</option>
+                        <option value="A91">male:divorced/separated</option>
                     </select>
                     <label for="sbonds">Other debtors and guarantors</label>
                     <select id="other_debtors_guarantors" name="other_debtors_guarantors">
-                        <option value="A14">no checking account</option>
-                        <option value="A11">&lt;0 DM</option>
-                        <option value="A12">0 &lt;= &lt;200 DM</option>
-                        <option value="A13">&gt;= 200 DM</option>
+                        <option value="A101">none</option>
+                        <option value="A102">co-applicant</option>
+                        <option value="A103">guarantor</option>
                     </select>
                     <label for="sbonds">Present residence since</label>
                     <select id="present_residence_since" name="present_residence_since">
@@ -171,51 +219,46 @@
                     </select>
                     <label for="sbonds">Property</label>
                     <select id="property" name="property">
-                        <option value="A14">no checking account</option>
-                        <option value="A11">&lt;0 DM</option>
-                        <option value="A12">0 &lt;= &lt;200 DM</option>
-                        <option value="A13">&gt;= 200 DM</option>
+                        <option value="A121">real estate</option>
+                        <option value="A122">savings agreement/life insurance</option>
+                        <option value="A123">car or other</option>
+                        <option value="A124">unknown / no property</option>
                     </select>
                     <label for="age">Current Age in Years</label>
                     <input type="text" id="age_in_years" name="age_in_years">
                     <label for="oplans">Other investment plans</label>
                     <select id="other_installment_plans" name="other_installment_plans">
-                        <option value="A14">no checking account</option>
-                        <option value="A11">&lt;0 DM</option>
-                        <option value="A12">0 &lt;= &lt;200 DM</option>
-                        <option value="A13">&gt;= 200 DM</option>
+                        <option value="A143">none</option>
+                        <option value="A142">store</option>
+                        <option value="A141">bank</option>
+                        
                     </select>
                     <label for="h">Housing</label>
                     <select id="housing" name="housing">
-                        <option value="A14">no checking account</option>
-                        <option value="A11">&lt;0 DM</option>
-                        <option value="A12">0 &lt;= &lt;200 DM</option>
-                        <option value="A13">&gt;= 200 DM</option>
+                        <option value="A153">for free</option>
+                        <option value="A152">own</option>
+                        <option value="A151">rent</option>
                     </select>
                     <label for="h">Existing Creadits at this bank</label>
                     <input type="text" id="number_of_existing_credits_at_this_bank" name="number_of_existing_credits_at_this_bank">
                     <label for="j">Job</label>
                     <select id="job" name="job">
-                        <option value="A14">no checking account</option>
-                        <option value="A11">&lt;0 DM</option>
-                        <option value="A12">0 &lt;= &lt;200 DM</option>
-                        <option value="A13">&gt;= 200 DM</option>
+                        <option value="A174">management/ highly qualified employee</option>
+                        <option value="A173">skilled employee / official</option>
+                        <option value="A172">unskilled - resident</option>
+                        <option value="A171">unemployed/ unskilled  - non-resident</option>
                     </select>
                     <label for="h">Number of people liable</label>
                     <input type="text" id="number_of_people_being_liable" name="number_of_people_being_liable">
                     <label for="T">Telephone</label>
                     <select id="telephone" name="telephone">
-                        <option value="A14">no checking account</option>
-                        <option value="A11">&lt;0 DM</option>
-                        <option value="A12">0 &lt;= &lt;200 DM</option>
-                        <option value="A13">&gt;= 200 DM</option>
+                        <option value="A192">yes</option>
+                        <option value="A191">none</option>
                     </select>
                     <label for="f">Foreign worker</label>
                     <select id="foreign_worker" name ="foreign_worker">
-                        <option value="A14">no checking account</option>
-                        <option value="A11">&lt;0 DM</option>
-                        <option value="A12">0 &lt;= &lt;200 DM</option>
-                        <option value="A13">&gt;= 200 DM</option>
+                        <option value="A201">Yes</option>
+                        <option value="A202">No</option>
                     </select>
                     <input type="button" class="button" value="Submit" onclick="jqsub(this);">
                 </form>
@@ -223,7 +266,7 @@
             <div class="col-xs-3 bg-danger" style="height:1400px;">Output fields 
                 <p></p>
                 <label for="ctype">Customer Type :</label>
-                <div style="display:none" id="message"></div>
+                <div style="display:none" id="result_message"></div>
             </div>
     </div>
 </body>
