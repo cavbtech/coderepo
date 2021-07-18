@@ -1,4 +1,4 @@
-# Creit application app
+# Credit application app
 
 Lending is primary business for banks and other lending organizations. Banks use credit scoring to accept or reject a loan request. Rating organizations like CIBIL, Experian and others also provide individual’s credit score to lending organizations. The score provided by rating organizations along with many other parameters are used to decide a good or bad loan borrower by lending organizations.
 

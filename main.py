@@ -3,11 +3,13 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 from ml_utils import load_dataset,predict
 from datetime import datetime
+from fastapi.staticfiles import StaticFiles
+from fastapi.encoders import jsonable_encoder
+from fastapi.responses import JSONResponse
+from pydantic import BaseModel
 
-app = FastAPI(
-    title="CredScore Application",
-    docs_url="/"
-)
+app = FastAPI( title="CredScore Application",docs_url="/")
+##app.mount("/static", StaticFiles(directory="static"), name="static")
 
 app.add_event_handler("startup", load_dataset)
 
@@ -44,13 +46,13 @@ def ping():
 
 @app.post("/predict_customer", response_model=QueryOut, status_code=200)
 def predict_customer( query_data: QueryIn):
+    print(f"query_data={query_data}")
     result = predict(query_data)
     ct     = datetime.now()
     ctStr  = ct.strftime("%m/%d/%Y, %H:%M:%S")
     output = {'is_trusted_customer': result,'timestamp_str':ctStr}
+    print(f"output={output}")
     return output
-
-
 
 
 if __name__ == "__main__":

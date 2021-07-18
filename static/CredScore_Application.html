@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Credit Score Application</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" type="text/css"
+        media="screen" />
+    <style>
+        input[type=text] {
+            width: 100%;
+            padding: 6px 10px;
+            margin: 4px 0;
+            box-sizing: border-box;
+        }
+
+        select {
+            width: 100%;
+            padding: 8px 10px;
+            border: none;
+            border-radius: 4px;
+            background-color: #f1f1f1;
+        }
+        .button {
+        background-color: #4CAF50;
+        border: none;
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+        }
+    </style>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script type="text/javascript">
+            function convertJson(inputForm){
+                var existing_checking_account = document.getElementById('existing_checking_account').value
+                var duration_in_month = document.getElementById('duration_in_month').value
+                alert(existing_checking_account + " " + duration_in_month)
+                alert(JSON.stringify(existing_checking_account))
+                var testString={
+                                "existing_checking_account":"A13",
+                                "duration_in_month":18,
+                                "credit_history":"A32",
+                                "purpose":"A43",
+                                "credit_amount":2100,
+                                "savings_account_bonds":"A61",
+                                "present_employment_since":"A73",
+                                "percentage_of_disposable_income":4,
+                                "personal_status_and_sex":"A93",
+                                "other_debtors_guarantors":"A102",
+                                "present_residence_since":2,
+                                "property":"A121",
+                                "age_in_years":37,
+                                "other_installment_plans":"A142",
+                                "housing":"A152",
+                                "number_of_existing_credits_at_this_bank":1,
+                                "job":"A173",
+                                "number_of_people_being_liable":1,
+                                "telephone":"A191",
+                                "foreign_worker":"A201"
+                            };
+                return JSON.stringify(testString)
+            }
+            function jqsub() {
+                alert('coming');
+            var $f = $('#contactForm1');
+            var datajson = convertJson($f)
+            var $m = $('#message');
+            alert($f.attr('action'))
+            $.ajax({
+            type: 'POST',
+            url: $f.attr('action'),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data: datajson,
+                success: function(msg) {
+                    alert(msg.message)
+                var formResponse = eval(msg); // This line evaluates the JSON data and converts it to JSON object. In older version of jQuery you will have to evaluate JSON object as a string.
+                    if (formResponse.FormProcessV2Response.success) { 
+                            
+                            $m.addClass('success').fadeIn().html(formResponse.FormProcessV2Response.message); 
+                            $f.fadeOut(); //Hide the form
+                    }
+                                
+                },
+                error: function(msg) {
+                    alert('error'+msg.message)
+                
+                return false;
+                }
+            });
+            }
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 text-center bg-primary" style="height:40px;">Credit Score Application</div>
+        </div>
+        <div class="row">
+            <div class="col-xs-3 bg-warning" style="height:1400px;">About Application</div>
+            <div class="col-xs-6 bg-info" style="height:1400px;">Input fields
+                <p></p>
+                <form id="contactForm1" action="http://127.0.0.1:8088/predict_customer2">
+                    <label for="fname">Status of existing checking account</label>
+                    <select id="existing_checking_account" name="existing_checking_account">
+                        <option value="A14">no checking account</option>
+                        <option value="A11">&lt;0 DM</option>
+                        <option value="A12">0 &lt;= &lt;200 DM</option>
+                        <option value="A13">&gt;= 200 DM</option>
+                    </select>
+                    <label for="fname">Duration in month</label>
+                    <input type="text" id="duration_in_month" name="duration_in_month">
+                    <label for="chistory">Creadit History</label>
+                    <select id="credit_history" name="credit_history">
+                        <option value="A34">critical account</option>
+                        <option value="A11">&lt;0 DM</option>
+                        <option value="A12">0 &lt;= &lt;200 DM</option>
+                        <option value="A13">&gt;= 200 DM</option>
+                    </select>
+                    <label for="p">Purpose</label>
+                    <select id="purpose" name="purpose">
+                        <option value="A14">no checking account</option>
+                        <option value="A11">&lt;0 DM</option>
+                        <option value="A12">0 &lt;= &lt;200 DM</option>
+                        <option value="A13">&gt;= 200 DM</option>
+                    </select>
+                    <label for="camount">Credit Amount</label>
+                    <input type="text" id="credit_amount" name="credit_amount">
+                    <label for="sbonds">Saving account bonds</label>
+                    <select id="savings_account_bonds" name="savings_account_bonds">
+                        <option value="A14">no checking account</option>
+                        <option value="A11">&lt;0 DM</option>
+                        <option value="A12">0 &lt;= &lt;200 DM</option>
+                        <option value="A13">&gt;= 200 DM</option>
+                    </select>
+                    <label for="p">Present emplyee since</label>
+                    <select id="present_employment_since" name="present_employment_since">
+                        <option value="A14">no checking account</option>
+                        <option value="A11">&lt;0 DM</option>
+                        <option value="A12">0 &lt;= &lt;200 DM</option>
+                        <option value="A13">&gt;= 200 DM</option>
+                    </select>
+                    <label for="sbonds">Percentage of disposable income</label>
+                    <input type="text" id="percentage_of_disposable_income" name="percentage_of_disposable_income">
+                    <label for="sbonds">Personal of Status amd sex</label>
+                    <select id="personal_status_and_sex" name="personal_status_and_sex">
+                        <option value="A14">no checking account</option>
+                        <option value="A11">&lt;0 DM</option>
+                        <option value="A12">0 &lt;= &lt;200 DM</option>
+                        <option value="A13">&gt;= 200 DM</option>
+                    </select>
+                    <label for="sbonds">Other debtors and guarantors</label>
+                    <select id="other_debtors_guarantors" name="other_debtors_guarantors">
+                        <option value="A14">no checking account</option>
+                        <option value="A11">&lt;0 DM</option>
+                        <option value="A12">0 &lt;= &lt;200 DM</option>
+                        <option value="A13">&gt;= 200 DM</option>
+                    </select>
+                    <label for="sbonds">Present residence since</label>
+                    <select id="present_residence_since" name="present_residence_since">
+                        <option value="A14">no checking account</option>
+                        <option value="A11">&lt;0 DM</option>
+                        <option value="A12">0 &lt;= &lt;200 DM</option>
+                        <option value="A13">&gt;= 200 DM</option>
+                    </select>
+                    <label for="sbonds">Property</label>
+                    <select id="property" name="property">
+                        <option value="A14">no checking account</option>
+                        <option value="A11">&lt;0 DM</option>
+                        <option value="A12">0 &lt;= &lt;200 DM</option>
+                        <option value="A13">&gt;= 200 DM</option>
+                    </select>
+                    <label for="age">Current Age in Years</label>
+                    <input type="text" id="age_in_years" name="age_in_years">
+                    <label for="oplans">Other investment plans</label>
+                    <select id="other_installment_plans" name="other_installment_plans">
+                        <option value="A14">no checking account</option>
+                        <option value="A11">&lt;0 DM</option>
+                        <option value="A12">0 &lt;= &lt;200 DM</option>
+                        <option value="A13">&gt;= 200 DM</option>
+                    </select>
+                    <label for="h">Housing</label>
+                    <select id="housing" name="housing">
+                        <option value="A14">no checking account</option>
+                        <option value="A11">&lt;0 DM</option>
+                        <option value="A12">0 &lt;= &lt;200 DM</option>
+                        <option value="A13">&gt;= 200 DM</option>
+                    </select>
+                    <label for="h">Existing Creadits at this bank</label>
+                    <input type="text" id="number_of_existing_credits_at_this_bank" name="number_of_existing_credits_at_this_bank">
+                    <label for="j">Job</label>
+                    <select id="job" name="job">
+                        <option value="A14">no checking account</option>
+                        <option value="A11">&lt;0 DM</option>
+                        <option value="A12">0 &lt;= &lt;200 DM</option>
+                        <option value="A13">&gt;= 200 DM</option>
+                    </select>
+                    <label for="h">Number of people liable</label>
+                    <input type="text" id="number_of_people_being_liable" name="number_of_people_being_liable">
+                    <label for="T">Telephone</label>
+                    <select id="telephone" name="telephone">
+                        <option value="A14">no checking account</option>
+                        <option value="A11">&lt;0 DM</option>
+                        <option value="A12">0 &lt;= &lt;200 DM</option>
+                        <option value="A13">&gt;= 200 DM</option>
+                    </select>
+                    <label for="f">Foreign worker</label>
+                    <select id="foreign_worker" name ="foreign_worker">
+                        <option value="A14">no checking account</option>
+                        <option value="A11">&lt;0 DM</option>
+                        <option value="A12">0 &lt;= &lt;200 DM</option>
+                        <option value="A13">&gt;= 200 DM</option>
+                    </select>
+                    <input type="button" class="button" value="Submit" onclick="jqsub(this);">
+                </form>
+            </div>
+            <div class="col-xs-3 bg-danger" style="height:1400px;">Output fields 
+                <p></p>
+                <label for="ctype">Customer Type :</label>
+                <div style="display:none" id="message"></div>
+            </div>
+    </div>
+</body>
+
+</html>
