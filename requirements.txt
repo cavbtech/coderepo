@@ -6,3 +6,4 @@ pandas==1.2.4
 scikit-learn==0.24.1
 Imbalanced-Learn==0.8.0
 imblearn==0.0
+aiofiles==0.7.0
