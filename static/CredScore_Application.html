@@ -38,7 +38,7 @@
     <script type="text/javascript">
 
 
-            function convertJson(inputForm){
+            function convertJson(){
                 var existing_checking_account = document.getElementById('existing_checking_account').value
                 var duration_in_month = parseInt(document.getElementById('duration_in_month').value)
                 var credit_history = document.getElementById('credit_history').value
@@ -49,7 +49,7 @@
                 var percentage_of_disposable_income = parseInt(document.getElementById('percentage_of_disposable_income').value)
                 var personal_status_and_sex = document.getElementById('personal_status_and_sex').value
                 var other_debtors_guarantors = document.getElementById('other_debtors_guarantors').value
-                var present_residence_since = document.getElementById('present_residence_since').value
+                var present_residence_since = parseInt(document.getElementById('present_residence_since').value)
                 var property = document.getElementById('property').value
                 var age_in_years = parseInt(document.getElementById('age_in_years').value)
                 var other_installment_plans = document.getElementById('other_installment_plans').value
@@ -59,7 +59,7 @@
                 var number_of_people_being_liable = parseInt(document.getElementById('number_of_people_being_liable').value)
                 var telephone = document.getElementById('telephone').value
                 var foreign_worker = document.getElementById('foreign_worker').value
-                var testString={
+                var testString=  {
                                 "existing_checking_account":existing_checking_account,
                                 "duration_in_month":duration_in_month,
                                 "credit_history":credit_history,
@@ -80,38 +80,37 @@
                                 "number_of_people_being_liable":number_of_people_being_liable,
                                 "telephone":telephone,
                                 "foreign_worker":foreign_worker
-                            };
+                            }
                             
-                // var testString2= {
-                //             "existing_checking_account":"A13",
-                //             "duration_in_month":18,
-                //             "credit_history":"A32",
-                //             "purpose":"A43",
-                //             "credit_amount":2100,
-                //             "savings_account_bonds":"A61",
-                //             "present_employment_since":"A73",
-                //             "percentage_of_disposable_income":4,
-                //             "personal_status_and_sex":"A93",
-                //             "other_debtors_guarantors":"A102",
-                //             "present_residence_since":2,
-                //             "property":"A121",
-                //             "age_in_years":37,
-                //             "other_installment_plans":"A142",
-                //             "housing":"A152",
-                //             "number_of_existing_credits_at_this_bank":1,
-                //             "job":"A173",
-                //             "number_of_people_being_liable":1,
-                //             "telephone":"A191",
-                //             "foreign_worker":"A201"
-                //         }
-                alert("testString="+JSON.stringify(testString))
-                console.log("testString="+JSON.stringify(testString))
+                var testString2= {
+                            "existing_checking_account":"A13",
+                            "duration_in_month":18,
+                            "credit_history":"A32",
+                            "purpose":"A43",
+                            "credit_amount":2100,
+                            "savings_account_bonds":"A61",
+                            "present_employment_since":"A73",
+                            "percentage_of_disposable_income":4,
+                            "personal_status_and_sex":"A93",
+                            "other_debtors_guarantors":"A102",
+                            "present_residence_since":2,
+                            "property":"A121",
+                            "age_in_years":37,
+                            "other_installment_plans":"A142",
+                            "housing":"A152",
+                            "number_of_existing_credits_at_this_bank":1,
+                            "job":"A173",
+                            "number_of_people_being_liable":1,
+                            "telephone":"A191",
+                            "foreign_worker":"A201"
+                        }
+                
                 return JSON.stringify(testString)
             }
             function jqsub() {
                 
             var $f = $('#contactForm1');
-            var datajson = convertJson($f)
+            var datajson = convertJson()
             var resultdiv = document.getElementById("result_message");
             $.ajax({
             type: 'POST',
@@ -189,16 +188,17 @@
                     </select>
                     <label for="p">Present emplyee since</label>
                     <select id="present_employment_since" name="present_employment_since">
-                        <option value="A14">no checking account</option>
-                        <option value="A11">&lt;0 DM</option>
-                        <option value="A12">0 &lt;= &lt;200 DM</option>
-                        <option value="A13">&gt;= 200 DM</option>
+                        <option value="A75">&gt;=7 years </option>
+                        <option value="A74">4&lt;= &lt;7 years</option>
+                        <option value="A73">1&lt;= &lt; 4 years</option>
+                        <option value="A72">&lt;1 years</option>
+                        <option value="A71">unemployed</option>
                     </select>
                     <label for="sbonds">Percentage of disposable income</label>
                     <input type="text" id="percentage_of_disposable_income" name="percentage_of_disposable_income">
                     <label for="sbonds">Personal of Status amd sex</label>
                     <select id="personal_status_and_sex" name="personal_status_and_sex">
-                        <option value="A95">female:singe</option>
+                        <!--option value="A95">female:singe</option-->
                         <option value="A94">male:married/widowed</option>
                         <option value="A93">male:single</option>
                         <option value="A92">female:divorced/separated/married</option>
@@ -211,12 +211,7 @@
                         <option value="A103">guarantor</option>
                     </select>
                     <label for="sbonds">Present residence since</label>
-                    <select id="present_residence_since" name="present_residence_since">
-                        <option value="A14">no checking account</option>
-                        <option value="A11">&lt;0 DM</option>
-                        <option value="A12">0 &lt;= &lt;200 DM</option>
-                        <option value="A13">&gt;= 200 DM</option>
-                    </select>
+                    <input type="text" id="present_residence_since" name="present_residence_since">
                     <label for="sbonds">Property</label>
                     <select id="property" name="property">
                         <option value="A121">real estate</option>
